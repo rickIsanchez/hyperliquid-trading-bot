@@ -1,0 +1,52 @@
+{
+  "BTC/USDT": {
+    "trades": 5828,
+    "win_rate": 46.41,
+    "return_pct": -34.63,
+    "final_capital": 6536.56,
+    "profit_factor": 0.77,
+    "sharpe": -2.04,
+    "max_dd": -34.64,
+    "avg_win": 4.27,
+    "avg_loss": -4.81,
+    "trades_per_month": 69.4,
+    "regime_distribution": {
+      "mean_reversion": 178386,
+      "trend": 66447
+    },
+    "trend_trades": 923,
+    "trend_wr": 42.36,
+    "mr_trades": 4905,
+    "mr_wr": 47.18,
+    "exit_reasons": {
+      "timeout": 4335,
+      "sl": 1174,
+      "tp": 319
+    }
+  },
+  "ETH/USDT": {
+    "trades": 6418,
+    "win_rate": 45.23,
+    "return_pct": -48.44,
+    "final_capital": 5155.66,
+    "profit_factor": 0.73,
+    "sharpe": -2.71,
+    "max_dd": -48.42,
+    "avg_win": 4.53,
+    "avg_loss": -5.12,
+    "trades_per_month": 76.4,
+    "regime_distribution": {
+      "mean_reversion": 174833,
+      "trend": 70000
+    },
+    "trend_trades": 1041,
+    "trend_wr": 40.83,
+    "mr_trades": 5377,
+    "mr_wr": 46.09,
+    "exit_reasons": {
+      "timeout": 4155,
+      "sl": 1769,
+      "tp": 494
+    }
+  }
+}
