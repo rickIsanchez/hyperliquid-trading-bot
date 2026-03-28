@@ -1,0 +1,48 @@
+{
+  "hyperliquid": {
+    "api_url": "https://api.hyperliquid.xyz",
+    "testnet_url": "https://api.hyperliquid-testnet.xyz",
+    "private_key": "YOUR_PRIVATE_KEY",
+    "use_testnet": true
+  },
+  "trading": {
+    "symbols": ["BTC", "ETH"],
+    "trade_size_usd": 1000,
+    "max_positions": 5,
+    "leverage": 5,
+    "tick_interval_seconds": 900,
+    "timeframe": "15m"
+  },
+  "strategies": {
+    "BTC": {
+      "name": "regime_adaptive",
+      "params": {
+        "adx_period": 14,
+        "adx_threshold": 25,
+        "ema_fast": 9,
+        "ema_slow": 21
+      }
+    },
+    "ETH": {
+      "name": "rsi_macd_volume",
+      "params": {
+        "rsi_period": 14,
+        "rsi_oversold": 30,
+        "rsi_overbought": 70,
+        "vol_multiplier": 1.5
+      }
+    }
+  },
+  "backtest": {
+    "start_date": "2018-01-01",
+    "symbols": ["BTC/USDT", "ETH/USDT"],
+    "timeframe": "15m",
+    "initial_capital": 10000,
+    "fee_rate": 0.00045
+  },
+  "risk": {
+    "max_drawdown_pct": 0.15,
+    "max_daily_loss_usd": 500,
+    "position_size_pct": 0.1
+  }
+}
