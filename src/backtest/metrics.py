@@ -62,10 +62,10 @@ def calculate_metrics(
     max_drawdown_pct = abs(max_drawdown)
 
     # Sharpe ratio (annualized, assuming 15m candles)
+    # ~35,040 fifteen-minute candles per year
+    periods_per_year = 35040
     returns = equity_curve.pct_change().dropna()
     if len(returns) > 1 and returns.std() > 0:
-        # ~35,040 fifteen-minute candles per year
-        periods_per_year = 35040
         sharpe_ratio = (returns.mean() / returns.std()) * np.sqrt(periods_per_year)
     else:
         sharpe_ratio = 0.0

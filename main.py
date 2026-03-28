@@ -36,8 +36,9 @@ def cmd_backtest(args):
         sys.exit(1)
 
     # Load data
-    logger.info(f"Loading {args.symbol} {args.timeframe} data ({args.years}y)...")
-    df = load_binance_ohlcv(args.symbol, args.timeframe, years=args.years)
+    years = args.days / 365.0 if args.days else args.years
+    logger.info(f"Loading {args.symbol} {args.timeframe} data ({years:.2f}y)...")
+    df = load_binance_ohlcv(args.symbol, args.timeframe, years=years)
 
     if df.empty:
         logger.error("No data loaded.")
@@ -134,7 +135,8 @@ def main():
     bt.add_argument("--symbol", default="BTC/USDT", help="Trading pair")
     bt.add_argument("--strategy", default="regime_adaptive", help="Strategy name")
     bt.add_argument("--timeframe", default="15m", help="Candle timeframe")
-    bt.add_argument("--years", type=int, default=7, help="Years of historical data")
+    bt.add_argument("--years", type=float, default=7, help="Years of historical data")
+    bt.add_argument("--days", type=int, default=None, help="Days of historical data (overrides --years)")
     bt.add_argument("--capital", type=float, default=10000, help="Initial capital")
     bt.add_argument("--output", help="Output file path")
 

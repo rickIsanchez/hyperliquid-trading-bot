@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def load_binance_ohlcv(
     symbol: str = "BTC/USDT",
     timeframe: str = "15m",
-    years: int = 7,
+    years: float = 7,
     since: Optional[int] = None,
 ) -> pd.DataFrame:
     """Load historical OHLCV data from Binance.

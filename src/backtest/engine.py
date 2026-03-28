@@ -94,6 +94,8 @@ class BacktestEngine:
 
         logger.info(f"Running backtest: {strategy.name} on {symbol} {timeframe} ({len(df)} candles)")
 
+        pending_signal: Optional[TradeSignal] = None  # Signal from previous bar, execute on next bar
+
         for i in range(strategy.warmup_periods, len(df)):
             current_data = df.iloc[: i + 1]
             current_bar = df.iloc[i]
@@ -109,24 +111,27 @@ class BacktestEngine:
                     trades.append(trade)
                     position = None
 
-            # Generate signal
-            signal = strategy.generate_signal(current_data, symbol)
-
-            # Execute signal
-            if signal.is_actionable and position is None:
-                entry_price = price * (1 + self.slippage if signal.signal == Signal.BUY else 1 - self.slippage)
-                size_usd = capital * self.position_size_pct * signal.size_pct
+            # Execute pending signal from previous bar at current bar's open (no look-ahead)
+            if pending_signal is not None and position is None:
+                open_price = current_bar["open"]
+                entry_price = open_price * (1 + self.slippage if pending_signal.signal == Signal.BUY else 1 - self.slippage)
+                size_usd = capital * self.position_size_pct * pending_signal.size_pct
                 size = size_usd / entry_price
 
                 position = {
-                    "side": "LONG" if signal.signal == Signal.BUY else "SHORT",
+                    "side": "LONG" if pending_signal.signal == Signal.BUY else "SHORT",
                     "entry_price": entry_price,
                     "entry_time": timestamp,
                     "size": size,
                     "size_usd": size_usd,
-                    "stop_loss": signal.stop_loss,
-                    "take_profit": signal.take_profit,
+                    "stop_loss": pending_signal.stop_loss,
+                    "take_profit": pending_signal.take_profit,
                 }
+                pending_signal = None
+
+            # Generate signal (will be executed on NEXT bar's open)
+            signal = strategy.generate_signal(current_data, symbol)
+            pending_signal = signal if signal.is_actionable else None
 
             # Calculate equity
             unrealized_pnl = 0.0
